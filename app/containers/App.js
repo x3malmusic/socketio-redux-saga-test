@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import App from "../components/App";
-import { changeInterval } from "../actions/actions";
+import { changeInterval, socketConnect } from "../actions/actions";
 
 
 const mapStateToProps = ({ stockTicker: { ticker, prevTicker } }) => ({
@@ -9,7 +9,8 @@ const mapStateToProps = ({ stockTicker: { ticker, prevTicker } }) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  changeInterval: (interval) => dispatch(changeInterval(interval))
+  changeInterval: (interval) => dispatch(changeInterval(interval)),
+  socketConnect: () => dispatch(socketConnect())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -1,5 +1,5 @@
 import '../styles/application.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Ticker from './Ticker';
 import DropDown from "../containers/DropDown";
 
@@ -7,11 +7,15 @@ import DropDown from "../containers/DropDown";
 
 function App(props) {
 
-  const { ticker, changeInterval, prevTicker } = props
+  const { ticker, changeInterval, prevTicker, socketConnect } = props
 
   const changeUpdateInterval = (value) => {
     changeInterval(value)
   }
+
+  useEffect(() => {
+    socketConnect()
+  }, [])
 
 
     return (

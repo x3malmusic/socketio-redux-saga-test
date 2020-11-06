@@ -13,7 +13,7 @@ var express = require('express');
 var http = require('http');
 var io = require('socket.io');
 var cors = require('cors');
-let counter
+var counter
 
 function getRandomValBetween(min, max, precision) {
   min = min === undefined ? 0 : min;
@@ -56,12 +56,9 @@ const createTimer = (socket, ticker, interval) => {
 
 function trackTicker(socket, ticker, interval) {
 
+  clearInterval(counter);
   // run the first time immediately
   getQuote(socket, ticker);
-
-  socket.on('disconnect', function() {
-    clearInterval(counter);
-  });
 
   counter = createTimer(socket, ticker, interval)
 }
@@ -83,9 +80,13 @@ io.on('connection', function(socket) {
   });
 
   socket.on('CHANGE_INTERVAL', ({ticker, interval}) => {
-    clearInterval(counter);
     trackTicker(socket, ticker, interval)
   })
+
+  socket.on('disconnect', function() {
+    clearInterval(counter);
+  });
+
 });
 
 server.listen(process.env.PORT || 4000);
